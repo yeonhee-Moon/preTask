@@ -2,8 +2,11 @@ package com.sparta.pretask.controller;
 
 import com.sparta.pretask.dto.ProductRequestDto;
 import com.sparta.pretask.dto.ProductResponseDto;
+import com.sparta.pretask.security.UserDetailsImpl;
 import com.sparta.pretask.service.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,7 +37,16 @@ public class ProductController {
     }
 
     // 목록조회
-
+    @GetMapping("/products")
+    public Page<ProductResponseDto> getProducts(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sortBy") String sortBy,
+            @RequestParam("isAsc") boolean isAsc,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        // 응답 보내기
+        return productService.getProducts(userDetails.getUser(),  page-1, size, sortBy, isAsc);
+    }
 
 
 
