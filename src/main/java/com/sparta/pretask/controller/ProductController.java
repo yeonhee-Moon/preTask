@@ -3,7 +3,6 @@ package com.sparta.pretask.controller;
 import com.sparta.pretask.dto.ProductRequestDto;
 import com.sparta.pretask.dto.ProductResponseDto;
 import com.sparta.pretask.service.ProductService;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
