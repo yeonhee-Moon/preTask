@@ -7,5 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductService {
     public ProductResponseDto createProduct(ProductRequestDto requestDto) {
+        return null;
     }
 }
