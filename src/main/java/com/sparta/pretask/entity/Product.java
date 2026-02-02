@@ -26,11 +26,21 @@ public class Product {
     @Column(nullable = false)
     private int price;
 
+    @Column(nullable = false)
+    private int stock;
 
 
     public Product(ProductRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.image = requestDto.getImage();
         this.price = requestDto.getPrice();
+        this.stock = requestDto.getStock();
+    }
+
+    public void update(ProductRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.image = requestDto.getImage();
+        this.price = requestDto.getPrice();
+        this.stock = requestDto.getStock();
     }
 }
