@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+
 public interface ProductRepository extends JpaRepository <Product,Long > {
 
     Page<Product> findAllByUser(User user, Pageable pageable);

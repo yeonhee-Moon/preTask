@@ -29,6 +29,9 @@ public class Product {
     @Column(nullable = false)
     private int stock;
 
+    @ManyToOne
+    @JoinColumn(name = "USERID") // DB 컬럼명
+    private User user;
 
     public Product(ProductRequestDto requestDto) {
         this.title = requestDto.getTitle();
