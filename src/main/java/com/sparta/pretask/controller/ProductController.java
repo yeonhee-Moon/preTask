@@ -4,11 +4,15 @@ import com.sparta.pretask.dto.ProductRequestDto;
 import com.sparta.pretask.dto.ProductResponseDto;
 import com.sparta.pretask.security.UserDetailsImpl;
 import com.sparta.pretask.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class ProductController {
@@ -16,9 +20,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+
 
     //등록
     @PostMapping("/products")
@@ -29,14 +31,20 @@ public class ProductController {
 
     //단건조회
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
+    public ProductResponseDto getProduct(@PathVariable Long id) {
 
-        ProductResponseDto response = productService.getProduct(id);
+        return productService.getProduct(id);
 
-        return ResponseEntity.ok(response);
     }
 
-    // 목록조회
+    //목록조회
+    @GetMapping("/productsAll")
+    public List<ProductResponseDto> getProducts() {
+
+        return productService.getProducts();
+    }
+
+    // 주문목록조회
     @GetMapping("/products")
     public Page<ProductResponseDto> getProducts(
             @RequestParam("page") int page,
@@ -44,11 +52,9 @@ public class ProductController {
             @RequestParam("sortBy") String sortBy,
             @RequestParam("isAsc") boolean isAsc,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        // 응답 보내기
+
         return productService.getProducts(userDetails.getUser(),  page-1, size, sortBy, isAsc);
     }
-
-
 
 
     //수정
@@ -65,4 +71,16 @@ public class ProductController {
 
         return productService.deleteProduct(id);
     }
+
+    //주문 생성(재고 차감)
+    @PostMapping("/{id}/decrease")
+    public ResponseEntity<String> decreaseStock(
+            @PathVariable Long id,
+            @RequestParam int qty) {
+
+        productService.decreaseStock(id, qty);
+
+        return ResponseEntity.ok("재고 차감 성공");
+    }
+
 }
